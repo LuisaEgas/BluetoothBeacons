@@ -6,11 +6,33 @@
              mc:Ignorable="d"
              x:Class="BluetoothLeBeacon.MainPage">
 
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-    </StackLayout>
+    <ContentPage.Content>
+        <StackLayout>
+            <Button Text="Buscar dispositivos" Clicked="ButtonSearchDevice"></Button>
+            <ListView x:Name="DevicesList" ItemSelected="DevicesList_OnItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"></RowDefinition>
+                                    <RowDefinition Height="20"></RowDefinition>
+                                    <RowDefinition Height="20"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label FontAttributes="Bold" Grid.Column="0" Grid.Row="0" Text="{Binding NativeDevice.Name}" ></Label>
+                                <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+                                    <Label FontAttributes="Bold" Text="{Binding Rssi}"></Label>
+                                    <Label Text="{Binding NativeDevice.Address}" ></Label>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
 
 </ContentPage>
