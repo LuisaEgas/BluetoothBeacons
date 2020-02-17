@@ -26,7 +26,9 @@ namespace BluetoothLeBeacon
             bluetoothBLE = CrossBluetoothLE.Current;
             adapter = CrossBluetoothLE.Current.Adapter;
             list = new ObservableCollection<IDevice>();
-            DevicesList.ItemsSource = list;
+            //DevicesList.ItemsSource = list;
+            
+            BindableLayout.SetItemsSource(stackstack, list);
         }
         private void ButtonSearchDevice(object sender, EventArgs e)
         {
@@ -55,14 +57,27 @@ namespace BluetoothLeBeacon
                 };
                 await adapter.StartScanningForDevicesAsync();
             }
+
             Thread.Sleep(3000);
-            SearchDevice();
+            Dispatcher.BeginInvokeOnMainThread(() =>
+            {
+                SearchDevice();
+            });
+            
+        }
+
+        public async void OnBluetoothSelected(object sender, EventArgs e)
+        {
+            device = ((Button)sender).BindingContext as IDevice;
+            var distancia = calculateAccuracy(device.Rssi);
+            distancia = Math.Round(distancia, 4);
+            await DisplayAlert("Proximidad", "Rssi: " + device.Rssi + "\nDistancia: " + distancia, "Aceptar");
         }
 
         private async void DevicesList_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            device = DevicesList.SelectedItem as IDevice;
-            await DisplayAlert("RSSI", "Rssi: " + device.Rssi + " \n Distancia: " + calculateAccuracy(device.Rssi), "Aceptar");
+            //device = DevicesList.SelectedItem as IDevice;
+            //await DisplayAlert("RSSI", "Rssi: " + device.Rssi + " \n Distancia: " + calculateAccuracy(device.Rssi), "Aceptar");
             /**
             var result = await DisplayAlert("Información", "Desea conectar este dispositivo?", "Aceptar", "Cancelar");
             if (!result) return;           

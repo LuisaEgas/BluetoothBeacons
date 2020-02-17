@@ -4,11 +4,30 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:local="clr-namespace:BluetoothLeBeacon"    
              x:Class="BluetoothLeBeacon.MainPage">
 
     <ContentPage.Content>
         <StackLayout>
             <Button Text="Buscar dispositivos" Clicked="ButtonSearchDevice"></Button>
+            <ScrollView>
+                <StackLayout x:Name="stackstack" BindableLayout.ItemsSource="{Binding list}" BindableLayout.ItemTemplateSelector="{Binding Distancia}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Frame>
+                                <StackLayout>
+                                    <Label FontAttributes="Bold" Grid.Column="0" Grid.Row="0" Text="Bluetooth" ></Label>
+                                    <Label FontAttributes="Bold" Grid.Column="0" Grid.Row="0" Text="{Binding NativeDevice.Name}" ></Label>
+                                    <Label FontAttributes="Bold" Grid.Column="0" Grid.Row="0" Text="{Binding Rssi}" ></Label>
+                                    <Label FontAttributes="Bold" Grid.Column="0" Grid.Row="0" Text="{Binding NativeDevice.Address}" ></Label>
+                                    <Button Clicked="OnBluetoothSelected" Text="Mirar proximidad de distancia"></Button>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
+            <!---
             <ListView x:Name="DevicesList" ItemSelected="DevicesList_OnItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -32,6 +51,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            -->
         </StackLayout>
     </ContentPage.Content>
 
